@@ -1,6 +1,5 @@
 package com.jwt.demojwt.interceptor;
 
-
 import com.alibaba.fastjson.JSONObject;
 import com.jwt.demojwt.entity.ApiResponse;
 import com.jwt.demojwt.enums.ApiResponseEnum;
@@ -16,7 +15,6 @@ import java.io.PrintWriter;
 
 /**
  * 自定义token拦截器
- *
  */
 
 @Component
@@ -26,6 +24,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         response.setCharacterEncoding("utf-8");
         String token = request.getHeader("accessToken");
+        System.out.println("token-------->" + token);
         //token不存在
         if (null != token) {
             //验证token是否正确
@@ -35,7 +34,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             }
         }
         ApiResponse apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.AUTH_ERROR);
-        responseMessage(response,response.getWriter(),apiResponse);
+        responseMessage(response, response.getWriter(), apiResponse);
         return false;
     }
 

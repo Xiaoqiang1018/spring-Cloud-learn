@@ -1,14 +1,21 @@
 package com.jwt.demojwt.entity;
 
-/**
- * @author:joe
- * @date:2019/5/20 19:38
- */
+
 public class User {
 
     private String id;
 
     private String name;
+
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     private Integer age;
 

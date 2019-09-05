@@ -2,12 +2,8 @@ package com.jwt.demojwt.service;
 
 import com.jwt.demojwt.entity.User;
 
-/**
- * @author:joe
- * @date:2019/5/20 19:43
- */
 public interface IUserService {
-    boolean checkUser(String loginName, String password);
+    void addUser(User user);
 
-    User getUserByLoginName(String loginName);
+    User UserLogin(User user);
 }
