@@ -2,7 +2,9 @@ package com.jwt.demojwt.controller;
 
 import com.jwt.demojwt.entity.User;
 import com.jwt.demojwt.service.IUserService;
+import com.jwt.demojwt.util.DigestUtils;
 import com.jwt.demojwt.util.JwtUtil;
+import com.jwt.demojwt.util.UserSalt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
@@ -40,13 +42,19 @@ public class UserLoginController {
             s = "用户已存在";
             return s;
         }
-        iUserService.addUser(user);
+        //将用户密码进行加密
+        String password = user.getPassword();
+        String encryptionPassword = DigestUtils.getMD5(password + UserSalt.USER_LOGIN_SALT);
+        System.out.println("密码" + encryptionPassword);
+        User userInDatabase = new User();
+        userInDatabase.setName(user.getName());
+        userInDatabase.setPassword(encryptionPassword);
+        iUserService.addUser(userInDatabase);
         return "成功";
     }
 
-
     @PostMapping(value = "/doThings")
-    public String dosome(){
+    public String dosome() {
         return "do somethings!";
     }
 
@@ -54,20 +62,19 @@ public class UserLoginController {
     public String userLogin(@RequestBody User user, String s) {
         String sign = null;
         User user1 = iUserService.UserLogin(user);
-        if (user == null ) {
+        if (user == null) {
             s = "用户不存在";
             return s;
         }
         String password = user1.getPassword();
         String name = user1.getName();
         String id = user1.getId();
-        if (!password.equals(user.getPassword())) {
+        String encryptionPassword = DigestUtils.getMD5(user.getPassword() + UserSalt.USER_LOGIN_SALT);
+        if (!password.equals(encryptionPassword)) {
             s = "密码不正确";
         }
         sign = JwtUtil.sign(name, id);
         return sign;
     }
-
-
 
 }
