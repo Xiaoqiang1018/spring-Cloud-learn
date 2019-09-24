@@ -1,0 +1,14 @@
+
+spring:
+  application:
+    name: provider-demo01
+
+
+
+server:
+  port: 8763  #\u9ED8\u8BA4\u662F8080
+
+eureka:
+  client:
+  serviceUrl:
+    defaultZone: http://localhost:8761/eureka/
